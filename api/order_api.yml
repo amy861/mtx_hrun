@@ -1,0 +1,37 @@
+
+#下订单的接口需要依赖于登录接口，而登录接口又是做的参数化，有登录失败的有登录成功的，
+# 然后就需要在登录接口中login_api.yml定义可以登录成功的变量,主要是为了进行与其他接口进行关联
+name: order api(下订单接口)
+variables:
+    var1: value1
+    var2: value2
+#调用env里面的base_url,用${大写ENV(env里面的变量名字)}
+base_url: ${ENV(BASE_URL)}
+
+request:
+    #写上下订单的url
+    url: '/mtx/index.php?s=/index/buy/add.html'
+    method: POST
+    #headers 下面的Content-Type不用写，写错了，会报错，不写会自动添加进去
+    headers:
+        X-Requested-With: 'XMLHttpRequest'
+        #Content-Type: "application/json"
+
+    #登录接口的传参是以表单的形式，所以要用data,不能用json
+    data:
+        goods_id: 1
+        stock: 2
+        buy_type: goods
+        address_id: 600
+        payment_id: 1
+        spec: ""
+#    json:
+#        key: $var2
+validate:
+    - eq: ["status_code", 200]
+    - eq: [content.msg, 提交成功]
+
+
+#运行 hrun api/order_api.yml 会失败，因为必须要和登录接口进行关联才行
+
+#接下来需要在testcases中写order下订单的接口

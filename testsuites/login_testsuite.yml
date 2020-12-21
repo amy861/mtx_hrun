@@ -1,0 +1,19 @@
+
+config:
+    name: "login testsuite"
+
+
+testcases:
+-
+    name: 登录接口参数化
+    testcase: testcases/login_testcase.yml
+
+    #参数化的关键字是parameters,参数化引用的时候必须用大写的P,${P(data/login.csv)}
+    parameters:
+        title-accounts-pwd-expect: ${P(data/login.csv)}
+#    variables:
+#        device_sn: $device_sn
+
+#运行这个文件 hrun testsuites/login_testsuite.yml,发现报错了，修改方法是 在login_api.yml中把断言用变量引用的方式写
+#即- eq: [content.msg, 登录成功]  改成 - eq: [content.msg, $expect]
+#发现还是 报错了，修改方法是  login_api.yml中的变量，要改成引用的形式

@@ -1,0 +1,19 @@
+
+#支付的时候会抓到一个302的包
+# 然后就需要在登录接口中login_api.yml定义可以登录成功的变量,主要是为了进行与其他接口进行关联
+name: pay api(支付接口)
+
+#调用env里面的base_url,用${大写ENV(env里面的变量名字)}
+base_url: ${ENV(BASE_URL)}
+
+request:
+    #这个url地址就是302接口的响应中的location字段
+    url: $location
+    method: GET
+
+validate:
+    - eq: ["status_code", 200]
+    - contains: [content, 支付成功]
+
+
+

@@ -1,0 +1,13 @@
+
+config:
+    name: "collect收货 testsuite"
+
+
+testcases:
+-
+    name: 收货接口测试用例
+    testcase: testcases/collect_testcase.yml
+
+
+
+

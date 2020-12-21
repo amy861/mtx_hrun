@@ -1,0 +1,50 @@
+
+config:
+    name: "collect收货 testcase"
+
+
+teststeps:
+-
+    name: 登录码同学商城
+    api: api/login_api.yml
+
+    validate:
+        - eq: [content.msg, 登录成功]
+
+
+-
+    name: 下订单-提交订单
+    api: api/order_api.yml
+    extract:
+        - jump_url: content.data.jump_url
+        - order_id: content.data.order.id
+        - user_id: content.data.order.user_id
+
+
+-
+    #有多少依赖关系就写多少步骤
+    name: 302接口
+    api: api/pay302_api.yml
+    extract:
+        #headers指的是响应头，响应头的信息都封装在headers中
+        - location: headers.location
+
+
+
+-
+    name: 进行支付
+    api: api/pay_api.yml
+
+-
+    name: 登录管理员账号进入后台
+    api: api/admin_api.yml
+
+
+-
+    name: 去发货
+    api: api/deliver_api.yml
+
+
+-
+    name: 确认收货
+    api: api/collect_api.yml

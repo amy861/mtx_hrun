@@ -1,0 +1,13 @@
+
+config:
+    name: "comment评论 testsuite"
+
+
+testcases:
+-
+    name: 评论接口测试用例
+    testcase: testcases/comment_testcase.yml
+
+
+
+

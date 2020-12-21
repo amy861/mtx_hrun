@@ -1,0 +1,32 @@
+
+name: login api
+variables:
+    accounts: amy
+    pwd: 123456
+#调用env里面的base_url,用${大写ENV(env里面的变量名字)}
+base_url: ${ENV(BASE_URL)}
+
+request:
+    #这个url就是登录的url，可以抓包看
+    url: '/mtx/index.php?s=/index/user/login.html'
+    method: POST
+    #headers 下面的Content-Type不用写，写错了，会报错，不写会自动添加进去
+    headers:
+        X-Requested-With: 'XMLHttpRequest'
+        #Content-Type: "application/json"
+
+    #登录接口的传参是以表单的形式，所以要用data,不能用json
+    data:
+        accounts: $accounts
+        pwd: $pwd
+#    json:
+#        key: $var2
+validate:
+    - eq: ["status_code", 200]
+    - eq: [content.msg, success]
+
+
+#验证以上接口正不正确，可以在terminal运行一下试试  hrun api/login_api.yml
+
+#接下来需要进行参数化，做参数化的时候就需要创建一个文件夹，data，用来放数据,
+#放完数据之后，必须在testsuites里面进行参数化，但是testcase里要先写测试用例

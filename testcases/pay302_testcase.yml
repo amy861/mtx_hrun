@@ -1,0 +1,35 @@
+
+config:
+    name: "pay302 testcase"
+
+
+teststeps:
+-
+    name: 登录接口
+    api: api/login_api.yml
+
+    validate:
+        - eq: [content.msg, 登录成功]
+
+
+-
+    name: 下订单-提交订单
+    api: api/order_api.yml
+    extract:
+        - jump_url: content.data.jump_url
+
+
+
+-
+    #有多少依赖关系就写多少步骤
+    name: 302接口
+    api: api/pay302_api.yml
+    extract:
+        #headers指的是响应头，响应头的信息都封装在headers中
+        - location: headers.location
+
+
+
+-
+    name: 支付接口
+    api: api/pay_api.yml
